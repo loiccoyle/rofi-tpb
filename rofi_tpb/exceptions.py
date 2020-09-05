@@ -1,0 +1,2 @@
+class RofiClosed(Exception):
+    pass
