@@ -8,8 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.6"
 python-rofi = "^1.0.1"
-tpblite = "^0.5"
-lxml = "^4.5.2"
+tpblite = "^0.6"
 
 [tool.poetry.dev-dependencies]
 

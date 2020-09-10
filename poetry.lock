@@ -1,20 +1,5 @@
 [[package]]
 category = "main"
-description = "Screen-scraping library"
-name = "beautifulsoup4"
-optional = false
-python-versions = "*"
-version = "4.9.1"
-
-[package.dependencies]
-soupsieve = [">1.2", "<2.0"]
-
-[package.extras]
-html5lib = ["html5lib"]
-lxml = ["lxml"]
-
-[[package]]
-category = "main"
 description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
 name = "lxml"
 optional = false
@@ -29,17 +14,6 @@ source = ["Cython (>=0.29.7)"]
 
 [[package]]
 category = "main"
-description = "An immutable URL class for easy URL-building and manipulation"
-name = "purl"
-optional = false
-python-versions = "*"
-version = "1.5"
-
-[package.dependencies]
-six = "*"
-
-[[package]]
-category = "main"
 description = "Create simple GUIs using the Rofi application"
 name = "python-rofi"
 optional = false
@@ -48,42 +22,20 @@ version = "1.0.1"
 
 [[package]]
 category = "main"
-description = "Python 2 and 3 compatibility utilities"
-name = "six"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-version = "1.15.0"
-
-[[package]]
-category = "main"
-description = "A modern CSS selector implementation for Beautiful Soup."
-name = "soupsieve"
-optional = false
-python-versions = "*"
-version = "1.9.6"
-
-[[package]]
-category = "main"
 description = "The Unofficial Pirate Bay Lightweight Python API"
 name = "tpblite"
 optional = false
 python-versions = ">=3.6"
-version = "0.5.0"
+version = "0.6.0"
 
 [package.dependencies]
-beautifulsoup4 = "*"
-purl = "*"
+lxml = "*"
 
 [metadata]
-content-hash = "abb5da7aec3e2461db58a8d158ef9045205e4ebe518749fc94ae14793f947d24"
+content-hash = "14a36a936afbb4041476f36fb68b07c6f458a501dd2932a3ab9bdc335a048c18"
 python-versions = "^3.6"
 
 [metadata.files]
-beautifulsoup4 = [
-    {file = "beautifulsoup4-4.9.1-py2-none-any.whl", hash = "sha256:e718f2342e2e099b640a34ab782407b7b676f47ee272d6739e60b8ea23829f2c"},
-    {file = "beautifulsoup4-4.9.1-py3-none-any.whl", hash = "sha256:a6237df3c32ccfaee4fd201c8f5f9d9df619b93121d01353a64a73ce8c6ef9a8"},
-    {file = "beautifulsoup4-4.9.1.tar.gz", hash = "sha256:73cc4d115b96f79c7d77c1c7f7a0a8d4c57860d1041df407dd1aae7f07a77fd7"},
-]
 lxml = [
     {file = "lxml-4.5.2-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:74f48ec98430e06c1fa8949b49ebdd8d27ceb9df8d3d1c92e1fdc2773f003f20"},
     {file = "lxml-4.5.2-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:e70d4e467e243455492f5de463b72151cc400710ac03a0678206a5f27e79ddef"},
@@ -117,22 +69,11 @@ lxml = [
     {file = "lxml-4.5.2-cp38-cp38-win_amd64.whl", hash = "sha256:f161af26f596131b63b236372e4ce40f3167c1b5b5d459b29d2514bd8c9dc9ee"},
     {file = "lxml-4.5.2.tar.gz", hash = "sha256:cdc13a1682b2a6241080745b1953719e7fe0850b40a5c71ca574f090a1391df6"},
 ]
-purl = [
-    {file = "purl-1.5-py2.py3-none-any.whl", hash = "sha256:5ac0e85979da0172d80156701cb3eb9b1eff31f3b43e981ef6dc06251c53a3a4"},
-    {file = "purl-1.5.tar.gz", hash = "sha256:75141bef1e7fce943afda671663a97c792af01c81648026cd5b5c0dcc3b72b96"},
-]
 python-rofi = [
     {file = "python-rofi-1.0.1.tar.gz", hash = "sha256:f2d6b8c7a1fcd1807b19cf27329d9a7f6c839cc9e8877396a819337cfa797a61"},
     {file = "python_rofi-1.0.1-py2.py3-none-any.whl", hash = "sha256:6acf69ce1480b81e929119acc85e6e1d62c975beb82d14c62152c9690f44f251"},
 ]
-six = [
-    {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
-    {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
-]
-soupsieve = [
-    {file = "soupsieve-1.9.6-py2.py3-none-any.whl", hash = "sha256:feb1e937fa26a69e08436aad4a9037cd7e1d4c7212909502ba30701247ff8abd"},
-    {file = "soupsieve-1.9.6.tar.gz", hash = "sha256:7985bacc98c34923a439967c1a602dc4f1e15f923b6fcf02344184f86cc7efaa"},
-]
 tpblite = [
-    {file = "tpblite-0.5.0.tar.gz", hash = "sha256:6c30b05c4694370239c89d958cb71095fde143a36d98d35deac65978c84c25e7"},
+    {file = "tpblite-0.6.0-py3-none-any.whl", hash = "sha256:c91f96766b7f0d957280fa8d0c0da30a76ebd5652f8f8baad7fcb0f6b90f6ab6"},
+    {file = "tpblite-0.6.0.tar.gz", hash = "sha256:7bd704abb434131beb7bddeee158ee300633cec5519a5d545862b2166d524692"},
 ]
