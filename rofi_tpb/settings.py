@@ -43,9 +43,15 @@ def get_atcions() -> Dict[str, str]:
     """Generate some torrent actions based on what is installed.
 
     Returns:
-        dictionary of actions and commmands.
+        Dictionary of actions and commmands.
     """
     # peerflix
     if which("peerflix"):
-        ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix '{magnetlink}''"
+        if which("mpv"):
+            ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix -d -r -a -k '{magnetlink}''"
+        elif which("vlc"):
+            ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix -d -r -a -v '{magnetlink}''"
+        elif which("mplayer"):
+            ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix -d -r -a -m '{magnetlink}''"
+
     return ACTIONS
