@@ -2,6 +2,8 @@ from random import choice
 from shutil import which
 from typing import Dict
 
+DEFAULT_KWARGS = {"case_sensitive": False}
+
 PROXY_URL = "https://piratebayproxy.info/"
 
 USER_AGENTS = (
