@@ -2,7 +2,8 @@ from random import choice
 from shutil import which
 from typing import Dict
 
-DEFAULT_KWARGS = {"case_sensitive": False}
+
+DEFAULT_KWARGS = {"case_insensitive": True}
 
 PROXY_URL = "https://piratebayproxy.info/"
 
@@ -41,7 +42,7 @@ CATEGORIES_STRINGS = [
 ENTRY_FMT = "{title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}"
 
 
-def get_atcions() -> Dict[str, str]:
+def get_actions() -> Dict[str, str]:
     """Generate some torrent actions based on what is installed.
 
     Returns:

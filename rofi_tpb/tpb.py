@@ -2,14 +2,13 @@ from subprocess import Popen
 from typing import Optional
 from urllib.request import urlopen
 
-from rofi import Rofi
+from dynmen.rofi import Rofi
 from tpblite import CATEGORIES
 from tpblite import TPB as TPBAPI
 from tpblite.models.torrents import Torrent, Torrents
 
-from .exceptions import RofiClosed
 from .proxy import get_proxies
-from .settings import CATEGORIES_STRINGS, DEFAULT_KWARGS, ENTRY_FMT, get_atcions
+from .settings import CATEGORIES_STRINGS, DEFAULT_KWARGS, ENTRY_FMT, get_actions
 from .utils import torrent_format
 
 
@@ -21,13 +20,15 @@ class TPB:
             except Exception:
                 url = "https://thepiratebay0.org"
         self.url = url
-        self.rofi = Rofi()
-        if not self._checl_url(self.url):
+        if not self._check_url(self.url):
             raise ValueError(f"Cannot reach '{self.url}'.")
         self.tpb = TPBAPI(self.url)
 
+    def get_menu(self):
+        return Rofi(**DEFAULT_KWARGS)
+
     @staticmethod
-    def _checl_url(url):
+    def _check_url(url):
         return urlopen(url).getcode() == 200
 
     def search_or_top(self) -> str:  # pylint: disable=inconsistent-return-statements
@@ -36,18 +37,12 @@ class TPB:
         Returns:
             Torrents matching either the search or the top category.
         """
-        choices = ["Search", "Top"]
-        print(DEFAULT_KWARGS)
-        index, key = self.rofi.select(
-            "Select", options=choices, lines=2, **DEFAULT_KWARGS
-        )
-        if key != 0:
-            raise RofiClosed()
-        choice = choices[index]
-        if choice == "Search":
-            return self.search()
-        if choice == "Top":
-            return self.top()
+        choices = {"Search": self.search, "Top": self.top}
+        rofi = self.get_menu()
+        rofi.lines = 2
+        rofi.prompt = "Select"
+        out = rofi(choices)
+        return out.value()
 
     def search(self, query: Optional[str] = None) -> Torrents:
         """Search for torrents.
@@ -59,12 +54,11 @@ class TPB:
             The Torrents matching the search query.
         """
         if query is None:
-            # I would like to set the lines to 0 but python-rofi doesn't allow
-            # it.
-            query = self.rofi.text_entry("Search", lines=1, **DEFAULT_KWARGS)
-        if query is None:
-            raise RofiClosed()
-        torrents = self.tpb.search(query)
+            rofi = self.get_menu()
+            rofi.lines = 0
+            rofi.prompt = "Search"
+            query = rofi()
+        torrents = self.tpb.search(query.selected)
         return self.select(torrents)
 
     def top(self, category: Optional[int] = None) -> Torrents:
@@ -80,12 +74,11 @@ class TPB:
             categories = CATEGORIES_STRINGS.copy()
             categories += [cat + " 48h" for cat in CATEGORIES_STRINGS]
             categories = sorted(categories)
-            index, key = self.rofi.select(
-                "Category", options=categories, lines=len(categories), **DEFAULT_KWARGS
-            )
-            if key != 0:
-                raise RofiClosed()
-            category = categories[index]
+            rofi = self.get_menu()
+            rofi.lines = len(categories)
+            rofi.prompt = "Select"
+            out = rofi(categories)
+            category = out.selected
         last_48 = "48h" in category
         category = category.split()[0]
         category = getattr(CATEGORIES, category)
@@ -103,15 +96,13 @@ class TPB:
         Reuturns:
             Selected torrent.
         """
-        torrents_formatted = []
+        torrents_formatted = {}
         for torrent in torrents:
-            torrents_formatted.append(torrent_format(ENTRY_FMT, torrent))
-        index, key = self.rofi.select(
-            "Torrent", options=torrents_formatted, **DEFAULT_KWARGS
-        )
-        if key != 0:
-            raise RofiClosed()
-        return torrents[index]
+            torrents_formatted[torrent_format(ENTRY_FMT, torrent)] = torrent
+        rofi = self.get_menu()
+        rofi.prompt = "Select"
+        out = rofi(torrents_formatted)
+        return out.value
 
     def action(self, torrent: Torrent) -> None:
         """Execute an action on `Torrent`.
@@ -119,12 +110,10 @@ class TPB:
         Args:
             torrent: `Torrent` instance on which to run the action.
         """
-        actions = get_atcions()
-        index, key = self.rofi.select(
-            "Action", options=actions.keys(), lines=len(actions), **DEFAULT_KWARGS
-        )
-        if key != 0:
-            raise RofiClosed()
-        command = list(actions.values())[index]
-        command = torrent_format(command, torrent)
+        actions = get_actions()
+        rofi = self.get_menu()
+        rofi.prompt = "Select"
+        rofi.lines = len(actions)
+        out = rofi(actions)
+        command = torrent_format(out.value, torrent)
         Popen(command, shell=True)

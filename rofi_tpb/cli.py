@@ -4,8 +4,8 @@ from typing import Optional, Sequence
 from urllib.request import HTTPError, URLError
 
 from tpblite import CATEGORIES
+from dynmen import MenuError
 
-from .exceptions import RofiClosed
 from .settings import CATEGORIES_STRINGS
 from .tpb import TPB
 
@@ -68,7 +68,7 @@ def main():
             torrent = tpb.search_or_top()
 
         tpb.action(torrent)
-    except RofiClosed:
+    except MenuError:
         pass
     except (URLError, HTTPError):
         print(
