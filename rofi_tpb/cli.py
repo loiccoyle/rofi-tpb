@@ -3,10 +3,11 @@ import sys
 from typing import Optional, Sequence
 from urllib.request import HTTPError, URLError
 
-from tpblite import CATEGORIES
 from dynmen import MenuError
+from tpblite import CATEGORIES
 
-from .settings import CATEGORIES_STRINGS
+from .config import write_default
+from .settings import CATEGORIES_STRINGS, CONFIG_DIR, CONFIG_FILE
 from .tpb import TPB
 
 
@@ -50,6 +51,11 @@ def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:
 def main():
     """Main Logic."""
     args = parse_args()
+
+    if not CONFIG_DIR.is_dir():
+        CONFIG_DIR.mkdir()
+    if not CONFIG_FILE.is_file():
+        write_default()
 
     try:
         tpb = TPB(url=args.url)

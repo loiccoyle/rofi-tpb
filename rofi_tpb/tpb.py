@@ -1,14 +1,16 @@
+import shlex
 from subprocess import Popen
 from typing import Optional
 from urllib.request import urlopen
 
-from dynmen.rofi import Rofi
+from dynmen import Menu
 from tpblite import CATEGORIES
 from tpblite import TPB as TPBAPI
 from tpblite.models.torrents import Torrent, Torrents
 
+from .config import CONFIG
 from .proxy import get_proxies
-from .settings import CATEGORIES_STRINGS, DEFAULT_KWARGS, ENTRY_FMT, get_actions
+from .settings import CATEGORIES_STRINGS
 from .utils import torrent_format
 
 
@@ -24,8 +26,13 @@ class TPB:
             raise ValueError(f"Cannot reach '{self.url}'.")
         self.tpb = TPBAPI(self.url)
 
-    def get_menu(self):
-        return Rofi(**DEFAULT_KWARGS)
+    def get_menu(self, prompt: Optional[str] = None, lines: Optional[int] = None):
+        args = shlex.split(CONFIG["menu"]["command"])
+        if prompt is not None:
+            args += ["-p", prompt]
+        if lines is not None:
+            args += ["-l", lines]
+        return Menu(args)
 
     @staticmethod
     def _check_url(url):
@@ -38,10 +45,8 @@ class TPB:
             Torrents matching either the search or the top category.
         """
         choices = {"Search": self.search, "Top": self.top}
-        rofi = self.get_menu()
-        rofi.lines = 2
-        rofi.prompt = "Select"
-        out = rofi(choices)
+        menu = self.get_menu(prompt="Select", lines=2)
+        out = menu(choices)
         return out.value()
 
     def search(self, query: Optional[str] = None) -> Torrents:
@@ -54,10 +59,8 @@ class TPB:
             The Torrents matching the search query.
         """
         if query is None:
-            rofi = self.get_menu()
-            rofi.lines = 0
-            rofi.prompt = "Search"
-            query = rofi()
+            menu = self.get_menu(prompt="Search", lines=0)
+            query = menu()
         torrents = self.tpb.search(query.selected)
         return self.select(torrents)
 
@@ -74,10 +77,8 @@ class TPB:
             categories = CATEGORIES_STRINGS.copy()
             categories += [cat + " 48h" for cat in CATEGORIES_STRINGS]
             categories = sorted(categories)
-            rofi = self.get_menu()
-            rofi.lines = len(categories)
-            rofi.prompt = "Select"
-            out = rofi(categories)
+            menu = self.get_menu(prompt="Select", lines=len(categories))
+            out = menu(categories)
             category = out.selected
         last_48 = "48h" in category
         category = category.split()[0]
@@ -98,10 +99,11 @@ class TPB:
         """
         torrents_formatted = {}
         for torrent in torrents:
-            torrents_formatted[torrent_format(ENTRY_FMT, torrent)] = torrent
-        rofi = self.get_menu()
-        rofi.prompt = "Select"
-        out = rofi(torrents_formatted)
+            torrents_formatted[
+                torrent_format(CONFIG["menu"]["torrent_format"], torrent)
+            ] = torrent
+        menu = self.get_menu(prompt="Select")
+        out = menu(torrents_formatted)
         return out.value
 
     def action(self, torrent: Torrent) -> None:
@@ -110,10 +112,8 @@ class TPB:
         Args:
             torrent: `Torrent` instance on which to run the action.
         """
-        actions = get_actions()
-        rofi = self.get_menu()
-        rofi.prompt = "Select"
-        rofi.lines = len(actions)
-        out = rofi(actions)
+        actions = CONFIG["actions"]
+        menu = self.get_menu(prompt="Select", lines=len(actions))
+        out = menu(actions)
         command = torrent_format(out.value, torrent)
         Popen(command, shell=True)

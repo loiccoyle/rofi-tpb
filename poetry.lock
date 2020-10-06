@@ -1,5 +1,21 @@
 [[package]]
 category = "main"
+description = "dynmen is an interface to dynamic menus, like dmenu, rofi, or fzf."
+name = "dynmen"
+optional = false
+python-versions = "*"
+version = "0.1.5"
+
+[[package]]
+category = "main"
+description = "Vestigial utilities from IPython"
+name = "ipython-genutils"
+optional = false
+python-versions = "*"
+version = "0.2.0"
+
+[[package]]
+category = "main"
 description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
 name = "lxml"
 optional = false
@@ -14,14 +30,6 @@ source = ["Cython (>=0.29.7)"]
 
 [[package]]
 category = "main"
-description = "Create simple GUIs using the Rofi application"
-name = "python-rofi"
-optional = false
-python-versions = "*"
-version = "1.0.1"
-
-[[package]]
-category = "main"
 description = "The Unofficial Pirate Bay Lightweight Python API"
 name = "tpblite"
 optional = false
@@ -31,11 +39,33 @@ version = "0.6.0"
 [package.dependencies]
 lxml = "*"
 
+[[package]]
+category = "main"
+description = "Traitlets Python configuration system"
+name = "traitlets"
+optional = false
+python-versions = ">=3.7"
+version = "5.0.4"
+
+[package.dependencies]
+ipython-genutils = "*"
+
+[package.extras]
+test = ["pytest"]
+
 [metadata]
-content-hash = "14a36a936afbb4041476f36fb68b07c6f458a501dd2932a3ab9bdc335a048c18"
-python-versions = "^3.6"
+content-hash = "76c5be605625621969c07c29dbd554c7a4186b5d484a31836d6b555dbfa9c356"
+python-versions = "^3.7"
 
 [metadata.files]
+dynmen = [
+    {file = "dynmen-0.1.5-py2.py3-none-any.whl", hash = "sha256:6a362c8cc98af921bba4a0d466aac523644a2bfaafe010807b35594c26b53252"},
+    {file = "dynmen-0.1.5.tar.gz", hash = "sha256:1fb011ae24a302c506b323797350c07c6b3045e91eac6113f6812a3373cf664d"},
+]
+ipython-genutils = [
+    {file = "ipython_genutils-0.2.0-py2.py3-none-any.whl", hash = "sha256:72dd37233799e619666c9f639a9da83c34013a73e8bbc79a7a6348d93c61fab8"},
+    {file = "ipython_genutils-0.2.0.tar.gz", hash = "sha256:eb2e116e75ecef9d4d228fdc66af54269afa26ab4463042e33785b887c628ba8"},
+]
 lxml = [
     {file = "lxml-4.5.2-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:74f48ec98430e06c1fa8949b49ebdd8d27ceb9df8d3d1c92e1fdc2773f003f20"},
     {file = "lxml-4.5.2-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:e70d4e467e243455492f5de463b72151cc400710ac03a0678206a5f27e79ddef"},
@@ -69,11 +99,11 @@ lxml = [
     {file = "lxml-4.5.2-cp38-cp38-win_amd64.whl", hash = "sha256:f161af26f596131b63b236372e4ce40f3167c1b5b5d459b29d2514bd8c9dc9ee"},
     {file = "lxml-4.5.2.tar.gz", hash = "sha256:cdc13a1682b2a6241080745b1953719e7fe0850b40a5c71ca574f090a1391df6"},
 ]
-python-rofi = [
-    {file = "python-rofi-1.0.1.tar.gz", hash = "sha256:f2d6b8c7a1fcd1807b19cf27329d9a7f6c839cc9e8877396a819337cfa797a61"},
-    {file = "python_rofi-1.0.1-py2.py3-none-any.whl", hash = "sha256:6acf69ce1480b81e929119acc85e6e1d62c975beb82d14c62152c9690f44f251"},
-]
 tpblite = [
     {file = "tpblite-0.6.0-py3-none-any.whl", hash = "sha256:c91f96766b7f0d957280fa8d0c0da30a76ebd5652f8f8baad7fcb0f6b90f6ab6"},
     {file = "tpblite-0.6.0.tar.gz", hash = "sha256:7bd704abb434131beb7bddeee158ee300633cec5519a5d545862b2166d524692"},
+]
+traitlets = [
+    {file = "traitlets-5.0.4-py3-none-any.whl", hash = "sha256:9664ec0c526e48e7b47b7d14cd6b252efa03e0129011de0a9c1d70315d4309c3"},
+    {file = "traitlets-5.0.4.tar.gz", hash = "sha256:86c9351f94f95de9db8a04ad8e892da299a088a64fd283f9f6f18770ae5eae1b"},
 ]

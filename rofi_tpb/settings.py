@@ -1,9 +1,19 @@
+import os
+from pathlib import Path
 from random import choice
 from shutil import which
 from typing import Dict
 
+CONFIG_DIR = Path(os.getenv("XDG_CONFIG_HOME"), Path.home() / ".config") / "rofi-tpb"
+CONFIG_FILE = CONFIG_DIR / "config.ini"
 
-DEFAULT_KWARGS = {"case_insensitive": True}
+DEFAULT_CONFIG = {
+    "menu": {
+        "command": "rofi -dmenu -i",
+        "torrent_format": "{title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}",
+    },
+    "actions": {"add": "xdg-open '{magnetlink}'", "open": "xgd-open '{url}'"},
+}
 
 PROXY_URL = "https://piratebayproxy.info/"
 
@@ -24,11 +34,6 @@ USER_AGENTS = (
 
 HEADERS = {"User-Agent": choice(USER_AGENTS)}
 
-ACTIONS = {
-    "Add": "xdg-open '{magnetlink}'",
-    "Open": "xdg-open '{url}'",
-}
-
 CATEGORIES_STRINGS = [
     "ALL",
     "APPLICATIONS",
@@ -38,23 +43,3 @@ CATEGORIES_STRINGS = [
     "PORN",
     "VIDEO",
 ]
-
-ENTRY_FMT = "{title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}"
-
-
-def get_actions() -> Dict[str, str]:
-    """Generate some torrent actions based on what is installed.
-
-    Returns:
-        Dictionary of actions and commmands.
-    """
-    # peerflix
-    if which("peerflix"):
-        if which("mpv"):
-            ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix -d -r -a -k '{magnetlink}''"
-        elif which("vlc"):
-            ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix -d -r -a -v '{magnetlink}''"
-        elif which("mplayer"):
-            ACTIONS["Peerflix"] = "$TERMINAL -e 'peerflix -d -r -a -m '{magnetlink}''"
-
-    return ACTIONS
