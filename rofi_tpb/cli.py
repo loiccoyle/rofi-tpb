@@ -71,9 +71,10 @@ def main():
             torrent = tpb.search(query=args.query)
         else:
             # if not subparser
-            torrent = tpb.search_or_top()
+            torrents = tpb.search_or_top()
 
-        tpb.action(torrent)
+        for torrent in torrents:
+            tpb.action(torrent)
     except MenuError:
         pass
     except (URLError, HTTPError):

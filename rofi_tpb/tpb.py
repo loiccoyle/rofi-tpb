@@ -1,6 +1,6 @@
 import shlex
 from subprocess import Popen
-from typing import Optional
+from typing import Optional, List
 from urllib.request import urlopen
 
 from dynmen import Menu
@@ -26,12 +26,22 @@ class TPB:
             raise ValueError(f"Cannot reach '{self.url}'.")
         self.tpb = TPBAPI(self.url)
 
-    def get_menu(self, prompt: Optional[str] = None, lines: Optional[int] = None):
+    def get_menu(
+        self,
+        prompt: Optional[str] = None,
+        lines: Optional[int] = None,
+        multiple: bool = False,
+        message: Optional[str] = None,
+    ):
         args = shlex.split(CONFIG["menu"]["command"])
         if prompt is not None:
             args += ["-p", prompt]
         if lines is not None:
             args += ["-l", lines]
+        if multiple:
+            args += ["-multi-select"]
+        if message is not None:
+            args += ["-mesg", message]
         return Menu(args)
 
     @staticmethod
@@ -88,23 +98,26 @@ class TPB:
         torrents = self.tpb.top(category=category, last_48=last_48)
         return self.select(torrents)
 
-    def select(self, torrents: Torrents) -> Torrent:
+    def select(self, torrents: Torrents) -> List[Torrent]:
         """Select a torrent from a `Torrents` object.
 
         Args:
             torrents: `Torrents`from which to select a single torrent.
 
         Reuturns:
-            Selected torrent.
+            Selected torrents.
         """
         torrents_formatted = {}
         for torrent in torrents:
             torrents_formatted[
                 torrent_format(CONFIG["menu"]["torrent_format"], torrent)
             ] = torrent
-        menu = self.get_menu(prompt="Select")
+        menu = self.get_menu(prompt="Select", multiple=True)
         out = menu(torrents_formatted)
-        return out.value
+        selected_out = []
+        for selected in out.selected.split("\n"):
+            selected_out.append(torrents_formatted[selected])
+        return selected_out
 
     def action(self, torrent: Torrent) -> None:
         """Execute an action on `Torrent`.
@@ -113,7 +126,7 @@ class TPB:
             torrent: `Torrent` instance on which to run the action.
         """
         actions = CONFIG["actions"]
-        menu = self.get_menu(prompt="Select", lines=len(actions))
+        menu = self.get_menu(prompt="Select", lines=len(actions), message=torrent)
         out = menu(actions)
         command = torrent_format(out.value, torrent)
         Popen(command, shell=True)
