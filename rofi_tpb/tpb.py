@@ -10,17 +10,19 @@ from tpblite.models.torrents import Torrent, Torrents
 
 from .config import CONFIG
 from .proxy import get_proxies
-from .settings import CATEGORIES_STRINGS
 from .utils import torrent_format
 
 
 class TPB:
     def __init__(self, url: Optional[str] = None):
         if url is None:
-            try:
-                url = get_proxies()[0]
-            except Exception:
-                url = "https://thepiratebay0.org"
+            if CONFIG["menu"].getboolean("use_tpb_proxy"):
+                try:
+                    url = get_proxies()[0]
+                except Exception:
+                    url = CONFIG["menu"]["tpb_url"]
+            else:
+                url = CONFIG["menu"]["tpb_url"]
         self.url = url
         if not self._check_url(self.url):
             raise ValueError(f"Cannot reach '{self.url}'.")
@@ -34,14 +36,15 @@ class TPB:
         message: Optional[str] = None,
     ):
         args = shlex.split(CONFIG["menu"]["command"])
-        if prompt is not None:
-            args += ["-p", prompt]
-        if lines is not None:
-            args += ["-l", lines]
-        if multiple:
-            args += ["-multi-select"]
-        if message is not None:
-            args += ["-mesg", message]
+        if "rofi" in args:
+            if prompt is not None:
+                args += ["-p", prompt]
+            if lines is not None:
+                args += ["-l", lines]
+            if multiple:
+                args += ["-multi-select"]
+            if message is not None:
+                args += ["-mesg", message]
         return Menu(args)
 
     @staticmethod
@@ -84,8 +87,11 @@ class TPB:
             The torrents for the selected categories.
         """
         if category is None:
-            categories = CATEGORIES_STRINGS.copy()
-            categories += [cat + " 48h" for cat in CATEGORIES_STRINGS]
+            categories = [
+                cat.strip() for cat in CONFIG["menu"]["categories"].split(",")
+            ]
+            if CONFIG["menu"].getboolean("categories_48h"):
+                categories += [cat + " 48h" for cat in categories]
             categories = sorted(categories)
             menu = self.get_menu(prompt="Select", lines=len(categories))
             out = menu(categories)

@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
 from random import choice
-from shutil import which
-from typing import Dict
 
 CONFIG_DIR = Path(os.getenv("XDG_CONFIG_HOME"), Path.home() / ".config") / "rofi-tpb"
 CONFIG_FILE = CONFIG_DIR / "config.ini"
@@ -11,6 +9,10 @@ DEFAULT_CONFIG = {
     "menu": {
         "command": "rofi -dmenu -i",
         "torrent_format": "{title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}",
+        "use_tpb_proxy": True,
+        "tpb_url": "https://thepiratebay0.org",
+        "categories": "All, APPLICATIONS, AUDIO, GAMES, OTHER, PORN, VIDEO",
+        "categories_48h": True,
     },
     "actions": {"add": "xdg-open '{magnetlink}'", "open": "xgd-open '{url}'"},
 }
