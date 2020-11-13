@@ -4,7 +4,6 @@ from typing import Optional, Sequence
 from urllib.request import HTTPError, URLError
 
 from dynmen import MenuError
-from tpblite import CATEGORIES
 
 from .config import write_default
 from .settings import CATEGORIES_STRINGS, CONFIG_DIR, CONFIG_FILE
@@ -62,7 +61,7 @@ def main():
         if hasattr(args, "category"):
             # if top subparser
             if args.category is not None:
-                category = getattr(CATEGORIES, args.category.upper(), None)
+                category = args.category.upper()
             else:
                 category = None
             torrent = tpb.top(category=category)
