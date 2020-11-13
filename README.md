@@ -71,6 +71,8 @@ command = rofi -dmenu -i
 torrent_format = {title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}
 use_tpb_proxy = True
 tpb_url = https://thepiratebay0.org
+categories = All, APPLICATIONS, AUDIO, GAMES, OTHER, PORN, VIDEO
+categories_48h = True
 
 [actions]
 add = xdg-open '{magnetlink}'
