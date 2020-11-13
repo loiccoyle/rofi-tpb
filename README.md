@@ -1,4 +1,13 @@
 # rofi-tpb
+<p align="center">
+  <img src="https://i.imgur.com/cgVDUFZ.png">
+</p>
+
+<p align="center">
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <a href="https://pypi.org/project/rofi-tpb/"><img src="https://img.shields.io/pypi/v/rofi-tpb"></a>
+  <img src="https://img.shields.io/badge/platform-linux%20%7C%20macOS%7C%20windows-informational">
+</p>
 
 Dynamic menu interface for The Pirate Bay, built with [`rofi`](https://github.com/davatorium/rofi) in mind.
 
