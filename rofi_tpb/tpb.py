@@ -1,6 +1,6 @@
 import shlex
 from subprocess import Popen
-from typing import Optional, List
+from typing import List, Optional
 from urllib.request import urlopen
 
 from dynmen import Menu
@@ -34,7 +34,8 @@ class TPB:
         lines: Optional[int] = None,
         multiple: bool = False,
         message: Optional[str] = None,
-    ):
+    ) -> Menu:
+        """Create the dynamic menu object."""
         args = shlex.split(CONFIG["menu"]["command"])
         if "rofi" in args:
             if prompt is not None:
