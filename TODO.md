@@ -1,1 +1,0 @@
-- [ ] Switch `python-rofi` to a better alternative
