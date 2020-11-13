@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "rofi_tpb"
+name = "rofi-tpb"
 version = "0.1.0"
 description = ""
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
