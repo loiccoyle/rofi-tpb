@@ -30,12 +30,12 @@ Search for ubuntu related torrents:
 rofi-tpb search ubuntu
 ```
 
-Browser tpb's top torrents across all categories:
+Browse tpb's top torrents across all categories:
 ```shell
 rofi-tpb top all
 ```
 
-Browser tpb's recent top torrents across all categories in the last 48h:
+Browse tpb's recent top torrents across all categories in the last 48h:
 ```shell
 rofi-tpb top all -r
 ```
