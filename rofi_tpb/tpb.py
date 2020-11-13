@@ -73,8 +73,8 @@ class TPB:
         """
         if query is None:
             menu = self.get_menu(prompt="Search", lines=0)
-            query = menu()
-        torrents = self.tpb.search(query.selected)
+            query = menu().selected()
+        torrents = self.tpb.search(query)
         return self.select(torrents)
 
     def top(self, category: Optional[int] = None) -> Torrents:
