@@ -1,6 +1,6 @@
 # rofi-tpb
 
-Dynamic menu interface for The Pirate Bay, built with `rofi` in mind.
+Dynamic menu interface for The Pirate Bay, built with [`rofi`](https://github.com/davatorium/rofi) in mind.
 
 # Install
 
@@ -8,7 +8,7 @@ Dynamic menu interface for The Pirate Bay, built with `rofi` in mind.
 pip install rofi-tpb
 ```
 
-Consider using pipx:
+Consider using [`pipx`](https://github.com/pipxproject/pipx):
 ```shell
 pipx install rofi-tpb
 ```
@@ -52,7 +52,7 @@ rofi-tpb top --help
 
 # Dependencies
 
-* `python > 3.7`
+* `python >= 3.7`
 * `tpblite`
 * `dynmen`
 * `lxml`
@@ -88,13 +88,13 @@ open = xdg-open '{url}'
  * `actions.*`: commands to run on the selected torrent, **accepts torrent string format keys.**
 
 Available torrent string format keys:
- * `{title}`
- * `{filesize}`
- * `{seeds}`
- * `{leeches}`
- * `{uploader}`
- * `{upload_date}`
- * `{url}`
- * `{magnetlink}`
+ * `{title}`: torrent title
+ * `{filesize}`: torrent file size
+ * `{seeds}`: number of seeders
+ * `{leeches}`: number of leechers
+ * `{uploader}`: torrent uploader
+ * `{upload_date}`: upload date
+ * `{url}`: torrent's tpb url
+ * `{magnetlink}`: torrent magnet link
 
 If the `menu.command` uses `rofi`, `rofi-tpb` will use `rofi`'s `-multiple-select` flag to allow for selecting multiple torrents.
