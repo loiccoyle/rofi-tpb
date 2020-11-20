@@ -1,6 +1,6 @@
 # rofi-tpb
 <p align="center">
-  <img src="https://i.imgur.com/cgVDUFZ.png">
+  <img src="https://i.imgur.com/oBO2IFe.png">
 </p>
 
 <p align="center">
