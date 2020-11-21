@@ -4,6 +4,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/loiccoyle/rofi-tpb/actions?query=workflow%3Atests"><img src="https://github.com/loiccoyle/rofi-tpb/workflows/tests/badge.svg"></a>
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <a href="https://pypi.org/project/rofi-tpb/"><img src="https://img.shields.io/pypi/v/rofi-tpb"></a>
   <img src="https://img.shields.io/badge/platform-linux%20%7C%20macOS%7C%20windows-informational">
@@ -61,7 +62,7 @@ rofi-tpb top --help
 
 # Dependencies
 
-* `python >= 3.7`
+* `python >= 3.6`
 * `tpblite`
 * `dynmen`
 * `lxml`
