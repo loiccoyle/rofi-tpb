@@ -77,7 +77,11 @@ The default configuration is the following:
 ```ini
 [menu]
 command = rofi -dmenu -i
-torrent_format = {title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}
+torrent_format = {title:<65} 📁{filesize:<12} 🔽{seeds:<4} 🔼{leeches:<4} Trusted: {trusted} VIP: {vip}
+vip_str = ✅
+not_vip_str = ❌
+trusted_str = ✅
+not_trusted_str = ❌
 use_tpb_proxy = True
 tpb_url = https://thepiratebay0.org
 categories = All, APPLICATIONS, AUDIO, GAMES, OTHER, PORN, VIDEO
@@ -91,6 +95,10 @@ open = xdg-open '{url}'
  * `menu.command`: the dynamic menu command which should read from `stdin` and output to `stdout`, if you want to use `dmenu` instead of `rofi` then adjust this command accordingly.
  * `menu.torrent_format`: text representation of a torrent in the dynamic menu, **accepts torrent string format keys.**
  * `menu.use_tpb_proxy`: if True will use the first tpb url as found on https://piratebayproxy.info/.
+ * `menu.vip_str`: string to use in the `menu.torrent_format` when the user is VIP.
+ * `menu.not_vip_str`: string to use in the `menu.torrent_format` when the user is not VIP.
+ * `menu.trusted_str`: string to use in the `menu.torrent_format` when the user is trusted.
+ * `menu.not_trusted_str`: string to use in the `menu.torrent_format` when the user is not trusted.
  * `menu.tpb_url`: tpb url, if `use_tpb_proxy` is True acts as a fallback url in case https://piratebayproxy.info/ is unavailable or the parsing fails.
  * `menu.categories`: comma separated list of tpb categories, when browsing the top torrents.
  * `menu.categories_48h`: add last 48h top torrent categories.
@@ -105,5 +113,8 @@ Available torrent string format keys:
  * `{upload_date}`: upload date
  * `{url}`: torrent's tpb url
  * `{magnetlink}`: torrent magnet link
+ * `{vip}`: uploader is VIP, replaced with `menu.vip_str`/`menu.not_vip_str`.
+ * `{trusted}`: uploader is trusted, replaced with `menu.trusted_str`/`menu.not_trusted_str`.
+
 
 If the `menu.command` uses `rofi`, `rofi-tpb` will use `rofi`'s `-multiple-select` flag to allow for selecting multiple torrents.

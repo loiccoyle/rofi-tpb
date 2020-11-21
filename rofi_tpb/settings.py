@@ -8,7 +8,11 @@ CONFIG_FILE = CONFIG_DIR / "config.ini"
 DEFAULT_CONFIG = {
     "menu": {
         "command": "rofi -dmenu -i",
-        "torrent_format": "{title:<70} 📁{filesize:<10} 🔽{seeds:<4} 🔼{leeches:<4}",
+        "torrent_format": "{title:<65} 📁{filesize:<12} 🔽{seeds:<4} 🔼{leeches:<4} Trusted:{trusted} VIP:{vip}",
+        "torrent_vip_str": "✅",
+        "torrent_not_vip_str": "❌",
+        "torrent_trusted_str": "✅",
+        "torrent_not_trusted_str": "❌",
         "use_tpb_proxy": True,
         "tpb_url": "https://thepiratebay0.org",
         "categories": "All, APPLICATIONS, AUDIO, GAMES, OTHER, PORN, VIDEO",
