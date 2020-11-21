@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from random import choice
 
-CONFIG_DIR = Path(os.getenv("XDG_CONFIG_HOME", Path.home()) / ".config") / "rofi-tpb"
+CONFIG_DIR = Path(os.getenv("XDG_CONFIG_HOME", Path.home() / ".config")) / "rofi-tpb"
 CONFIG_FILE = CONFIG_DIR / "config.ini"
 
 DEFAULT_CONFIG = {
