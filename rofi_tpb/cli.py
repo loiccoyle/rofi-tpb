@@ -54,7 +54,7 @@ def main():
     if not CONFIG_DIR.is_dir():
         CONFIG_DIR.mkdir()
     if not CONFIG_FILE.is_file():
-        write_default()
+        write_default(CONFIG_FILE)
 
     try:
         tpb = TPB(url=args.url)
