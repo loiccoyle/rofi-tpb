@@ -19,7 +19,7 @@ repository = "https://github.com/loiccoyle/rofi-tpb"
 python = "^3.6"
 tpblite = "^0.7"
 dynmen = "^0.1.5"
-traitlets = "^5.0.4"
+traitlets = "<5.0.0"
 lxml = "^4.6.1"
 
 [tool.poetry.dev-dependencies]
