@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rofi-tpb"
-version = "0.2.3"
+version = "0.2.4"
 description = "Dynamic menu interface for TPB, built with rofi in mind."
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 license = "MIT"
