@@ -78,6 +78,7 @@ def main():
         pass
     except (URLError, HTTPError):
         print(
-            "Can't access TPB, specify a different proxy with the -u flag.",
+            "Can't access TPB, consider specifying a different TPB url with the -u flag.",
             file=sys.stderr,
         )
+        raise

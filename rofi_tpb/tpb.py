@@ -1,6 +1,7 @@
 import shlex
 from subprocess import Popen
 from typing import List, Optional
+from urllib.error import URLError
 from urllib.request import urlopen
 
 from dynmen import Menu
@@ -18,7 +19,8 @@ class TPB:
         if url is None:
             if CONFIG["menu"].getboolean("use_tpb_proxy"):
                 try:
-                    url = get_proxies()[0]
+                    proxies = [url for url in get_proxies() if self._check_url(url)]
+                    url = proxies[0]
                 except Exception:
                     url = CONFIG["menu"]["tpb_url"]
             else:
@@ -28,8 +30,8 @@ class TPB:
             raise ValueError(f"Cannot reach '{self.url}'.")
         self.tpb = TPBAPI(self.url)
 
+    @staticmethod
     def get_menu(
-        self,
         prompt: Optional[str] = None,
         lines: Optional[int] = None,
         multiple: bool = False,
@@ -50,7 +52,10 @@ class TPB:
 
     @staticmethod
     def _check_url(url):
-        return urlopen(url).getcode() == 200
+        try:
+            return urlopen(url).getcode() == 200
+        except URLError:
+            return False
 
     def search_or_top(self) -> str:  # pylint: disable=inconsistent-return-statements
         """Chose between top or search.
