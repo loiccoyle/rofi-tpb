@@ -1,6 +1,6 @@
 import shlex
 from subprocess import Popen
-from typing import List, Optional
+from typing import List, Optional, Iterable
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -57,8 +57,10 @@ class TPB:
         except URLError:
             return False
 
-    def search_or_top(self) -> str:  # pylint: disable=inconsistent-return-statements
-        """Chose between top or search.
+    def search_or_top(
+        self,
+    ) -> Torrents:  # pylint: disable=inconsistent-return-statements
+        """Choose between top or search.
 
         Returns:
             Torrents matching either the search or the top category.
@@ -68,7 +70,11 @@ class TPB:
         out = menu(choices)
         return out.value()
 
-    def search(self, query: Optional[str] = None) -> Torrents:
+    def _ask_query(self) -> str:
+        menu = self.get_menu(prompt="Search", lines=0)
+        return menu().selected
+
+    def search(self, query: Optional[str] = None) -> List[Torrent]:
         """Search for torrents.
 
         Args:
@@ -78,12 +84,21 @@ class TPB:
             The Torrents matching the search query.
         """
         if query is None:
-            menu = self.get_menu(prompt="Search", lines=0)
-            query = menu().selected
+            query = self._ask_query()
+
         torrents = self.tpb.search(query)
         return self.select(torrents)
 
-    def top(self, category: Optional[int] = None) -> Torrents:
+    def _ask_category(self) -> str:
+        categories = [cat.strip() for cat in CONFIG["menu"]["categories"].split(",")]
+        if CONFIG["menu"].getboolean("categories_48h"):
+            categories += [cat + " 48h" for cat in categories]
+        categories = sorted(categories)
+        menu = self.get_menu(prompt="Select", lines=len(categories))
+        out = menu(categories)
+        return out.selected
+
+    def top(self, category: Optional[str] = None) -> List[Torrent]:
         """Get the top torrents for a category.
 
         Args:
@@ -93,24 +108,17 @@ class TPB:
             The torrents for the selected categories.
         """
         if category is None:
-            categories = [
-                cat.strip() for cat in CONFIG["menu"]["categories"].split(",")
-            ]
-            if CONFIG["menu"].getboolean("categories_48h"):
-                categories += [cat + " 48h" for cat in categories]
-            categories = sorted(categories)
-            menu = self.get_menu(prompt="Select", lines=len(categories))
-            out = menu(categories)
-            category = out.selected
+            category = self._ask_category()
+
         last_48 = "48h" in category
         category = category.split()[0]
-        category = getattr(CATEGORIES, category)
+        category = getattr(CATEGORIES, category.upper())
         if not isinstance(category, int):
             category = category.ALL
         torrents = self.tpb.top(category=category, last_48=last_48)
         return self.select(torrents)
 
-    def select(self, torrents: Torrents) -> List[Torrent]:
+    def select(self, torrents: Iterable[Torrent]) -> List[Torrent]:
         """Select a torrent from a `Torrents` object.
 
         Args:
@@ -127,7 +135,7 @@ class TPB:
         menu = self.get_menu(prompt="Select", multiple=True)
         out = menu(torrents_formatted)
         selected_out = []
-        for selected in out.selected.split("\n"):
+        for selected in out.selectd.split("\n"):
             selected_out.append(torrents_formatted[selected])
         return selected_out
 
@@ -138,7 +146,7 @@ class TPB:
             torrent: `Torrent` instance on which to run the action.
         """
         actions = CONFIG["actions"]
-        menu = self.get_menu(prompt="Select", lines=len(actions), message=torrent)
+        menu = self.get_menu(prompt="Select", lines=len(actions), message=str(torrent))
         out = menu(actions)
         command = torrent_format(out.value, torrent)
         Popen(command, shell=True)

@@ -1,7 +1,7 @@
 import argparse
 import sys
 from typing import Optional, Sequence
-from urllib.request import HTTPError, URLError
+from urllib.error import HTTPError, URLError
 
 from dynmen import MenuError
 
@@ -64,10 +64,10 @@ def main():
                 category = args.category.upper()
             else:
                 category = None
-            torrent = tpb.top(category=category)
+            torrents = tpb.top(category=category)
         elif hasattr(args, "query"):
             # if search subparser
-            torrent = tpb.search(query=args.query)
+            torrents = tpb.search(query=args.query)
         else:
             # if not subparser
             torrents = tpb.search_or_top()

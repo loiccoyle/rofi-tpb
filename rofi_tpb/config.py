@@ -3,7 +3,6 @@ from pathlib import Path
 
 from .settings import CONFIG_FILE, DEFAULT_CONFIG
 
-
 def write_default(config_path: Path) -> None:
     """Write the default config to file."""
     parser = configparser.ConfigParser()
