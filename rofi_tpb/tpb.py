@@ -135,7 +135,7 @@ class TPB:
         menu = self.get_menu(prompt="Select", multiple=True)
         out = menu(torrents_formatted)
         selected_out = []
-        for selected in out.selectd.split("\n"):
+        for selected in out.selected.split("\n"):
             selected_out.append(torrents_formatted[selected])
         return selected_out
 
